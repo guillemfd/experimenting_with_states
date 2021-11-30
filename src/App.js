@@ -16,11 +16,20 @@ function App() {
 
   const [counter, setCounter] = useState(0)  //esto hace lo mismo que las 3 líneas anteriores, pero desestructurado
   const [valueFromInput, setValueFromInput] = useState('')
-  const [animals, setAnimals] = useState(['cat', 'jaguar', 'bat', 'eagle', 'horse'])
+  const [animals, setAnimals] = useState([
+    { type: "cat", canFly: false, color: "red" },
+    { type: "jaguar", canFly: false, color: "red" },
+    { type: "bat", canFly: true, color: "coral" },
+    { type: "eagle", canFly: true, color: "blue" },
+    { type: "horse", canFly: false, color: "green" }, 
+  ])
+
+  const [showAnimals, setShowAnimals] = useState(true);
+
 
   const deleteAnimal = (animalFromChild) => {
     const filteredAnimals = animals.filter((item) => {
-      return item !== animalFromChild;
+      return item.type !== animalFromChild;
     });
     setAnimals(filteredAnimals);
   };
@@ -37,8 +46,9 @@ function App() {
       <input type="text" onChange={(event)=> setValueFromInput(event.target.value)}/>
         <h2>What I am typing {valueFromInput}</h2>
       </div>
+      <button onClick={()=> setShowAnimals(!showAnimals)}>{showAnimals ? "Hide animals" : "Show animals"}</button>
       <div className="flex-space">
-        {animals.map((animal, index) => {
+        {showAnimals && animals.map((animal, index) => {
           return (
             <Animal
               animal={animal}
